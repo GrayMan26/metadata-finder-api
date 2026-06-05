@@ -1,0 +1,8 @@
+fastapi>=0.111
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+mutagen>=1.47
+pillow>=10.0
+shazamio>=0.4
+requests>=2.31
+python-dotenv>=1.0
