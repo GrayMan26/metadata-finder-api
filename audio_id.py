@@ -9,15 +9,12 @@ if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 
-def identify_with_shazam(filepath: str) -> dict:
+async def identify_with_shazam(filepath: str) -> dict:
     try:
         from shazamio import Shazam
 
-        async def _run():
-            shazam = Shazam()
-            return await shazam.recognize(filepath)
-
-        result = asyncio.run(_run())
+        shazam = Shazam()
+        result = await shazam.recognize(filepath)
 
         if not result or "track" not in result:
             return {}
@@ -67,11 +64,11 @@ def identify_with_acoustid(filepath: str, api_key: str) -> dict:
         return {}
 
 
-def identify_file(filepath: str, acoustid_key: str = "") -> dict:
+async def identify_file(filepath: str, acoustid_key: str = "") -> dict:
     """Try AcoustID then Shazam. Returns whatever was found (may be empty)."""
     if acoustid_key:
         result = identify_with_acoustid(filepath, acoustid_key)
         if result:
             return result
 
-    return identify_with_shazam(filepath)
+    return await identify_with_shazam(filepath)

@@ -41,7 +41,7 @@ async def identify(file: UploadFile = File(...)):
         f.write(content)
         tmp_path = f.name
     try:
-        result = identify_file(tmp_path, acoustid_key=None)
+        result = await identify_file(tmp_path, acoustid_key=None)
     finally:
         os.unlink(tmp_path)
 
